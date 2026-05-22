@@ -1,12 +1,11 @@
 import chromadb
-from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+from chromadb.utils.embedding_functions import DefaultEmbeddingFunction
 from langchain_core.documents import Document
 import uuid
 import re
 
-embedding_fn = SentenceTransformerEmbeddingFunction(
-    model_name="all-MiniLM-L6-v2"
-)
+# Lightweight built-in embeddings — no torch/sentence-transformers needed
+embedding_fn = DefaultEmbeddingFunction()
 
 client = chromadb.PersistentClient(path="./chroma_db")
 
