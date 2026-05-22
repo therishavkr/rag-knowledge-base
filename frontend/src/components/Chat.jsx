@@ -23,7 +23,7 @@ const fetchDocuments = async () => {
   try {
     setDocsLoading(true)
     await new Promise(resolve => setTimeout(resolve, 800))
-    const res = await axios.get("http://localhost:8000/documents")
+    const res = await axios.get("https://rag-knowledge-base-api.onrender.com/documents")
     setAvailableDocs(res.data.documents)
   } catch (err) {
     console.error("Could not fetch documents")
@@ -42,7 +42,7 @@ const fetchDocuments = async () => {
 
   const deleteDoc = async (doc) => {
   try {
-    await axios.delete(`http://localhost:8000/documents/${doc}`)
+    await axios.delete(`https://rag-knowledge-base-api.onrender.com/documents/${doc}`)
     setAvailableDocs(prev => prev.filter(d => d !== doc))
     setSelectedDocs(prev => prev.filter(d => d !== doc))
   } catch (err) {
@@ -59,7 +59,7 @@ const fetchDocuments = async () => {
     setLoading(true)
 
     try {
-      const res = await axios.post("http://localhost:8000/ask", {
+      const res = await axios.post("https://rag-knowledge-base-api.onrender.com/ask", {
         question: input,
         chat_history: chatHistory,
         selected_docs: selectedDocs

@@ -4,7 +4,6 @@ from langchain_core.documents import Document
 import uuid
 import re
 
-# Lightweight built-in embeddings — no torch/sentence-transformers needed
 embedding_fn = DefaultEmbeddingFunction()
 
 client = chromadb.PersistentClient(path="./chroma_db")

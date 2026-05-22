@@ -15,7 +15,7 @@ function Upload({ onUploadSuccess }) {
     formData.append("file", file)
 
     try {
-      const res = await axios.post("http://localhost:8000/upload", formData)
+      const res = await axios.post("https://rag-knowledge-base-api.onrender.com/upload", formData)
       setUploadedFiles(prev => [...prev, res.data.filename])
       onUploadSuccess(res.data.filename)
     } catch (err) {
