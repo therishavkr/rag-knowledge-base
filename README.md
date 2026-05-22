@@ -104,7 +104,7 @@ VITE_API_URL=http://localhost:8000
 
 ## 📸 Screenshots
 
-![App Screenshot](screenshots\1.png)
+![App Screenshot](screenshots/1.png)
 
 ## 🔮 Future Improvements
 
