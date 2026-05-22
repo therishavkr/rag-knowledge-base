@@ -10,6 +10,7 @@ function Chat({ refreshTrigger }) {
   const [availableDocs, setAvailableDocs] = useState([])
   const [selectedDocs, setSelectedDocs] = useState([])
   const [docsLoading, setDocsLoading] = useState(false)
+  const [mode, setMode] = useState("ai")
 
 
 
@@ -64,7 +65,8 @@ const fetchDocuments = async () => {
       const res = await axios.post(`${config.BASE_URL}/ask`, {
         question: input,
         chat_history: chatHistory,
-        selected_docs: selectedDocs
+        selected_docs: selectedDocs,
+        mode: mode
       })
 
       const botMessage = {
@@ -161,6 +163,22 @@ const fetchDocuments = async () => {
           <div className="message bot"><p>Thinking...</p></div>
         )}
       </div>
+
+      {/* Mode Toggle */}
+<div className="mode-toggle">
+  <button
+    className={`mode-btn ${mode === "ai" ? "active" : ""}`}
+    onClick={() => setMode("ai")}
+  >
+    🧠 AI Answer
+  </button>
+  <button
+    className={`mode-btn ${mode === "search" ? "active" : ""}`}
+    onClick={() => setMode("search")}
+  >
+    🔍 Raw Search
+  </button>
+</div>
 
       <div className="input-row">
         <input

@@ -46,3 +46,30 @@ Context from documents:
         "sources": sources,
         "chunks_used": len(relevant_chunks)
     }
+
+def search_only(query: str, collection_names: list = []) -> dict:
+    relevant_chunks = search_chunks(query, collection_names, n_results=5)
+
+    if not relevant_chunks:
+        return {
+            "answer": "No relevant chunks found.",
+            "sources": [],
+            "chunks_used": 0
+        }
+
+    # Just return raw chunks, no LLM
+    raw_results = "\n\n---\n\n".join([
+        f"📄 {chunk.metadata.get('source', 'Unknown')} (page {chunk.metadata.get('page', '?')})\n{chunk.page_content}"
+        for chunk in relevant_chunks
+    ])
+
+    sources = list(set([
+        chunk.metadata.get("source", "Unknown")
+        for chunk in relevant_chunks
+    ]))
+
+    return {
+        "answer": raw_results,
+        "sources": sources,
+        "chunks_used": len(relevant_chunks)
+    }

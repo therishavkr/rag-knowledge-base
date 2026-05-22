@@ -7,7 +7,7 @@ from langchain_core.messages import HumanMessage
 from fastapi import File, UploadFile
 from document_processor import process_pdf
 from vector_store import add_chunks_to_db, search_chunks, list_collections, delete_collection, filename_to_collection
-from rag_pipeline import ask_question
+from rag_pipeline import ask_question, search_only
 from config import API_VERSION
 import os
 
@@ -15,8 +15,6 @@ load_dotenv()
 
 
 app = FastAPI(title="RAG Knowledge Base API", root_path=f"/api/{API_VERSION}")
-
-app = FastAPI(title="RAG Knowledge Base API")
 
 app.add_middleware(
     CORSMiddleware,
@@ -70,18 +68,23 @@ async def upload_file(file: UploadFile = File(...)):
 class QuestionRequest(BaseModel):
     question: str
     chat_history: list = []
-    selected_docs: list = []  # empty = search all docs
+    selected_docs: list = []
+    mode: str = "ai"  # "ai" or "search"
+
 
 @app.post("/ask")
 def ask(request: QuestionRequest):
     if not request.selected_docs:
         collections = list_collections()
     else:
-        collections = request.selected_docs  # already collection names, no conversion needed
+        collections = request.selected_docs
 
-    result = ask_question(request.question, request.chat_history, collections)
+    if request.mode == "search":
+        result = search_only(request.question, collections)
+    else:
+        result = ask_question(request.question, request.chat_history, collections)
+
     return result
-
 @app.get("/documents")
 def get_documents():
     collections = list_collections()
