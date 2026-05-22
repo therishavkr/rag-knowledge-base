@@ -8,9 +8,13 @@ from fastapi import File, UploadFile
 from document_processor import process_pdf
 from vector_store import add_chunks_to_db, search_chunks, list_collections, delete_collection, filename_to_collection
 from rag_pipeline import ask_question
+from config import API_VERSION
 import os
 
 load_dotenv()
+
+
+app = FastAPI(title="RAG Knowledge Base API", root_path=f"/api/{API_VERSION}")
 
 app = FastAPI(title="RAG Knowledge Base API")
 
@@ -87,3 +91,5 @@ def get_documents():
 def remove_document(collection_name: str):
     delete_collection(collection_name)
     return {"status": f"{collection_name} deleted ✅"}
+
+

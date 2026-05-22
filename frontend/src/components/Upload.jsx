@@ -1,5 +1,6 @@
 import { useState } from "react"
 import axios from "axios"
+import config from "../config"
 
 function Upload({ onUploadSuccess }) {
   const [uploading, setUploading] = useState(false)
@@ -15,7 +16,7 @@ function Upload({ onUploadSuccess }) {
     formData.append("file", file)
 
     try {
-      const res = await axios.post("https://rag-knowledge-base-api.onrender.com/upload", formData)
+      const res = await axios.post(`${config.BASE_URL}/upload`, formData)
       setUploadedFiles(prev => [...prev, res.data.filename])
       onUploadSuccess(res.data.filename)
     } catch (err) {
