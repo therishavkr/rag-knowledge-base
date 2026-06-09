@@ -9,4 +9,5 @@ def get_llm():
         api_key=os.getenv("GROQ_API_KEY"),
         model="llama-3.3-70b-versatile",
         temperature=0.5,
+        request_timeout=30,
     )
