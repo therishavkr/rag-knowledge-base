@@ -1,4 +1,4 @@
-# IITM Course Planner + RAG Knowledge Base
+# CourseCraft + RAG Knowledge Base
 
 An AI-powered tool for IIT Madras students with two modes:
 
